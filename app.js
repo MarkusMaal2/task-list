@@ -22,6 +22,17 @@ function addTask(e) {
     e.preventDefault()
 }
 
+function deleteTask(e) {
+    //
+    if (e.target.textContent === "X") {
+        // confirm action
+        let confirmed = confirm("Are you sure you want to delete this task?")
+        if (confirmed) {
+            e.target.parentElement.remove()
+        }
+    }
+}
+
 const taskTitle = document.getElementById("taskTitle")
 
 taskTitle.style.backgroundColor = "#234"
@@ -47,3 +58,5 @@ let el = document.querySelector("ul")
 //console.log(el)
 let form = document.querySelector("#addTask")
 form.addEventListener("submit", addTask)
+let ul = document.querySelector("#taskList")
+ul.addEventListener("click", deleteTask)
