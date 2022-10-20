@@ -19,11 +19,22 @@ function addTask(e) {
 
     // delete leftover input value from form
     taskInput.value = ""
+    patternize()
     e.preventDefault()
 }
 
+function deleteAllTasks(e) {
+    // confirm action
+    let confirmed = confirm("Are you sure you want to delete all tasks?")
+    if (confirmed) {
+        par = document.querySelector("#taskList")
+        while (par.firstChild) {
+            par.removeChild(par.firstChild)
+        }
+    }
+}
 function deleteTask(e) {
-    //
+
     if (e.target.textContent === "X") {
         // confirm action
         let confirmed = confirm("Are you sure you want to delete this task?")
@@ -31,6 +42,26 @@ function deleteTask(e) {
             e.target.parentElement.remove()
         }
     }
+    patternize()
+}
+
+function patternize() {
+
+// üks element
+    let li = document.querySelector(".collection-item")
+
+// muuda paaritute ridade taustad
+    li = document.querySelector(".collection-item:last-child")
+// mitu elementi
+    const oddLi = document.querySelectorAll(".collection-item:nth-child(odd)")
+    const evenLi = document.querySelectorAll(".collection-item:nth-child(even)")
+
+    /*for(let i = 0; i < oddLi.length; i++) {
+        oddLi[i].style.background = "lightgray"
+    }*/
+
+    oddLi.forEach(function(li) { li.style.background = 'whitesmoke';})
+    evenLi.forEach(function(li) { li.style.background = 'white';})
 }
 
 const taskTitle = document.getElementById("taskTitle")
@@ -41,22 +72,12 @@ taskTitle.style.padding = "15px"
 //taskTitle.style.display = "none"
 //taskTitle.innerText = "List of Tasks"
 taskTitle.innerHTML = `<span style="color: cyan;">List of Tasks</span>`
-// üks element
-let li = document.querySelector(".collection-item")
+patternize();
 
-// muuda paaritute ridade taustad
-li = document.querySelector(".collection-item:last-child")
-// mitu elementi
-const oddLi = document.querySelectorAll(".collection-item:nth-child(odd)")
-
-/*for(let i = 0; i < oddLi.length; i++) {
-    oddLi[i].style.background = "lightgray"
-}*/
-
-oddLi.forEach(function(li) { li.style.background = 'whitesmoke';})
-let el = document.querySelector("ul")
-//console.log(el)
+// event listeners
 let form = document.querySelector("#addTask")
 form.addEventListener("submit", addTask)
 let ul = document.querySelector("#taskList")
 ul.addEventListener("click", deleteTask)
+let da = document.querySelector("#deleteAll")
+da.addEventListener("click", deleteAllTasks)
