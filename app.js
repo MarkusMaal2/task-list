@@ -28,8 +28,7 @@ function deleteTaskFromLS(task) {
     localStorage.setItem("tasks", JSON.stringify(tasks))
 }
 
-function loadTasks() {
-
+function addAllTasksFromLS() {
 }
 
 function addTask(e) {
@@ -66,11 +65,13 @@ function deleteAllTasks(e) {
         par = document.querySelector("#taskList")
         while (par.firstChild) {
             par.removeChild(par.firstChild)
+
         }
+        localStorage.removeItem("tasks")
     }
 }
-function deleteTask(e) {
 
+function deleteTask(e) {
     if (e.target.textContent === "X") {
         // confirm action
         let confirmed = confirm("Are you sure you want to delete this task?")
@@ -120,3 +121,5 @@ let ul = document.querySelector("#taskList")
 ul.addEventListener("click", deleteTask)
 let da = document.querySelector("#deleteAll")
 da.addEventListener("click", deleteAllTasks)
+
+addAllTasksFromLS()
