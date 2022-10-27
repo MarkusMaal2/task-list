@@ -11,7 +11,25 @@ function addTaskToLS(task) {
     localStorage.setItem("tasks", JSON.stringify(tasks))
 }
 
+function deleteTaskFromLS(task) {
+    let tasks
+    if (localStorage.getItem("tasks") === null) {
+        tasks = []
+    } else {
+        tasks = JSON.parse(localStorage.getItem("tasks"))
+
+        //tasks.pop(task)
+    }
+    tasks.forEach((t, i) => {
+        if (t === task) {
+            tasks.splice(i, 1)
+        }
+    })
+    localStorage.setItem("tasks", JSON.stringify(tasks))
+}
+
 function loadTasks() {
+
 }
 
 function addTask(e) {
@@ -58,6 +76,9 @@ function deleteTask(e) {
         let confirmed = confirm("Are you sure you want to delete this task?")
         if (confirmed) {
             e.target.parentElement.remove()
+            let task = e.target.parentElement.textContent
+            task = task.slice(0, task.length - 1)
+            deleteTaskFromLS(task)
         }
     }
     patternize()
