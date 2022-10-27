@@ -1,4 +1,19 @@
 
+function addTaskToLS(task) {
+    let tasks
+    if (localStorage.getItem("tasks") === null) {
+        tasks = []
+    } else {
+        tasks = JSON.parse(localStorage.getItem("tasks"))
+    }
+    tasks.push(task)
+    //console.log(tasks)
+    localStorage.setItem("tasks", JSON.stringify(tasks))
+}
+
+function loadTasks() {
+}
+
 function addTask(e) {
     // get form input value
     let taskInput = document.querySelector("#task")
@@ -16,6 +31,9 @@ function addTask(e) {
     ul.appendChild(listItem)
 
     //console.log(listItem)
+
+    // save task value to LocalStorage
+    addTaskToLS(taskInput.value)
 
     // delete leftover input value from form
     taskInput.value = ""
