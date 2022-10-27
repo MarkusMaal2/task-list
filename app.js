@@ -1,25 +1,23 @@
 
-function addTaskToLS(task) {
+function getTasksFromLS() {
     let tasks
     if (localStorage.getItem("tasks") === null) {
         tasks = []
     } else {
         tasks = JSON.parse(localStorage.getItem("tasks"))
     }
+    return tasks
+}
+
+function addTaskToLS(task) {
+    let tasks = getTasksFromLS()
     tasks.push(task)
     //console.log(tasks)
     localStorage.setItem("tasks", JSON.stringify(tasks))
 }
 
 function deleteTaskFromLS(task) {
-    let tasks
-    if (localStorage.getItem("tasks") === null) {
-        tasks = []
-    } else {
-        tasks = JSON.parse(localStorage.getItem("tasks"))
-
-        //tasks.pop(task)
-    }
+    let tasks = getTasksFromLS()
     tasks.forEach((t, i) => {
         if (t === task) {
             tasks.splice(i, 1)
@@ -28,7 +26,23 @@ function deleteTaskFromLS(task) {
     localStorage.setItem("tasks", JSON.stringify(tasks))
 }
 
-function addAllTasksFromLS() {
+function addAllTasksFromLS(e) {
+    let tasks = getTasksFromLS()
+    tasks.forEach((t) => {
+        // create new listitem with input value and X
+        const listItem = document.createElement("li")
+        listItem.appendChild(document.createTextNode(t))
+        listItem.className = "collection-item"
+        const x = document.createElement("a")
+        x.href = "#"
+        x.className = "secondary-content"
+        x.appendChild(document.createTextNode("X"))
+        listItem.appendChild(x)
+        // add to unordered list
+        const ul = document.querySelector("ul")
+        ul.appendChild(listItem)
+    })
+    patternize()
 }
 
 function addTask(e) {
@@ -112,7 +126,6 @@ taskTitle.style.padding = "15px"
 //taskTitle.style.display = "none"
 //taskTitle.innerText = "List of Tasks"
 taskTitle.innerHTML = `<span style="color: cyan;">List of Tasks</span>`
-patternize();
 
 // event listeners
 let form = document.querySelector("#addTask")
@@ -121,5 +134,4 @@ let ul = document.querySelector("#taskList")
 ul.addEventListener("click", deleteTask)
 let da = document.querySelector("#deleteAll")
 da.addEventListener("click", deleteAllTasks)
-
-addAllTasksFromLS()
+document.addEventListener("DOMContentLoaded", addAllTasksFromLS)
